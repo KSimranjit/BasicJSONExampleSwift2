@@ -12,7 +12,30 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let url = NSURL(string: "https://freegeoip.net/json/")!
+        
+        let task = NSURLSession.sharedSession().dataTaskWithURL(url) { (data , response, error ) -> Void in
+            
+            if let urlContent = data{
+                
+                //from json to readable data
+                do {
+                let jsonResult = try NSJSONSerialization.JSONObjectWithData(urlContent, options: NSJSONReadingOptions.MutableContainers)
+                
+                print(jsonResult["city"])
+                }catch
+                {
+                    print("JSON Serialization failed")
+                }
+            }
+            
+        }
+        task.resume()
+        
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
